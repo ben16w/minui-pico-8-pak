@@ -120,7 +120,10 @@ copy_carts() {
 set_controller_layout() {
     layout="$1"
     target_file="$HOME/sdl_controllers.txt"
-    [ ! -f "$target_file" ] && return
+
+    if [ ! -f "$target_file" ]; then
+        return
+    fi
 
     if [ "$layout" = "xbox" ]; then
         sed -r -i \
