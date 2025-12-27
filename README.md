@@ -185,6 +185,20 @@ To set the screen mode to `stretched`, create a file named `screen-mode` in `/.u
 
 Please note that using `stretched` mode may look unnatural for games with circular objects or on 16:9 resolution screens.
 
+### Controller Layout
+
+This pak supports two controller button layouts: **Xbox** (default) and **Nintendo**.
+
+- `Xbox layout`: A/B/X/Y buttons follow the Xbox controller standard.
+- `Nintendo layout`: A/B/X/Y buttons follow the Nintendo controller standard.
+
+By default, the Xbox layout is used. To switch to the Nintendo layout:
+
+- Create an empty file named `nintendo` in the `/.userdata/<PLATFORM>/Pico-8-native` folder on your SD card.
+- The Nintendo layout will be applied automatically.
+
+To switch back to the Xbox layout, simply delete the `nintendo` file.
+
 ### Sleep Mode
 
 Built-in MinUI cores have support for turning off the display and eventually shutting down when the power button is pressed. Standalone emulators do not have this functionality due to needing support inside of the console for this. At this time, this pak does not implement sleep mode.

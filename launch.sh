@@ -117,6 +117,28 @@ copy_carts() {
     sync
 }
 
+set_controller_layout() {
+    layout="$1"
+    target_file="$HOME/sdl_controllers.txt"
+    [ ! -f "$target_file" ] && return
+
+    if [ "$layout" = "xbox" ]; then
+        sed -r -i \
+            -e 's/(^|,)a:[^,]+/\1a:b0/g' \
+            -e 's/(^|,)b:[^,]+/\1b:b1/g' \
+            -e 's/(^|,)x:[^,]+/\1x:b2/g' \
+            -e 's/(^|,)y:[^,]+/\1y:b3/g' \
+            "$target_file"
+    else
+        sed -r -i \
+            -e 's/(^|,)a:[^,]+/\1a:b1/g' \
+            -e 's/(^|,)b:[^,]+/\1b:b0/g' \
+            -e 's/(^|,)x:[^,]+/\1x:b3/g' \
+            -e 's/(^|,)y:[^,]+/\1y:b2/g' \
+            "$target_file"
+    fi
+}
+
 get_screen_mode() {
     if [ ! -f "$USERDATA_PATH/Pico-8-native/screen-mode" ]; then
         echo "normal" >"$USERDATA_PATH/Pico-8-native/screen-mode"
@@ -155,6 +177,12 @@ launch_cart() {
     ROM_PATH="$1"
     cp -f "$PAK_DIR/controllers/$(get_controller_file)" "$HOME/sdl_controllers.txt"
     cp -f "$PAK_DIR/config/$PLATFORM.txt" "$HOME/config.txt"
+
+    if [ -f "$USERDATA_PATH/Pico-8-native/nintendo" ]; then
+        set_controller_layout nintendo
+    else
+        set_controller_layout xbox
+    fi
 
     echo 1600000 >/sys/devices/system/cpu/cpu0/cpufreq/scaling_setspeed
 
